@@ -6,68 +6,68 @@ import { getSoupsByConstitution } from '@/mocks/soups'
 import { useMemo } from 'react'
 import type { SoupPack } from '@/types'
 
-// 硬编码热门汤包示例
+// Hardcoded popular soup examples
 const hotSoupExamples: SoupPack[] = [
   {
     id: 'demo-001',
-    name: '黃芪黨參補氣湯',
+    name: 'Astragalus & Codonopsis Qi Tonic Soup',
     nameEn: 'Astragalus & Codonopsis Qi Tonic Soup',
-    description: '經典補氣良方，黃芪補氣固表，黨參健脾益肺，適合氣虛乏力、容易疲倦人士。',
+    description: 'A classic qi-tonifying formula. Astragalus strengthens qi and defense, while codonopsis supports the spleen and lungs. Great for fatigue and low energy.',
     price: 88,
     originalPrice: 108,
-    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&h=400&fit=crop',
-    tags: ['補氣', '健脾', '暢銷'],
-    ingredients: ['黃芪 15g', '黨參 12g', '淮山 20g', '紅棗 6顆', '桂圓 10g', '枸杞 8g'],
-    benefits: ['補中益氣', '增強免疫力', '改善疲勞', '健脾養胃'],
+    image: '/images/soup-001.jpg',
+    tags: ['Qi Tonic', 'Spleen Support', 'Best Seller'],
+    ingredients: ['Astragalus 15g', 'Codonopsis 12g', 'Chinese Yam 20g', 'Red Dates x6', 'Longan 10g', 'Goji Berry 8g'],
+    benefits: ['Boosts Vital Qi', 'Supports Immunity', 'Relieves Fatigue', 'Supports Digestion'],
     suitableFor: ['qi-deficiency'],
-    cookTime: '90分鐘',
+    cookTime: '90 mins',
     servings: 2,
     isHot: true,
   },
   {
     id: 'demo-002',
-    name: '四神湯',
+    name: 'Four Divinity Soup',
     nameEn: 'Four Divinity Soup',
-    description: '健脾養胃的經典湯品，性質平和，適合日常保養。',
+    description: 'A classic mild soup for supporting spleen and stomach health, ideal for daily wellness.',
     price: 52,
     originalPrice: 68,
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop',
-    tags: ['健脾', '養胃', '日常'],
-    ingredients: ['淮山 20g', '芡實 15g', '蓮子 15g', '茯苓 15g', '薏仁 15g'],
-    benefits: ['健脾養胃', '益腎固精', '祛濕止瀉', '日常保養'],
+    image: '/images/soup-009.jpg',
+    tags: ['Spleen Support', 'Stomach Care', 'Daily Wellness'],
+    ingredients: ['Chinese Yam 20g', 'Gorgon Seed 15g', 'Lotus Seed 15g', 'Poria 15g', 'Coix Seed 15g'],
+    benefits: ['Supports Spleen and Stomach', 'Kidney Support', 'Reduces Dampness', 'Daily Maintenance'],
     suitableFor: ['balanced', 'qi-deficiency', 'dampness'],
-    cookTime: '90分鐘',
+    cookTime: '90 mins',
     servings: 2,
     isHot: true,
   },
   {
     id: 'demo-003',
-    name: '當歸生薑羊肉湯',
+    name: 'Angelica & Ginger Mutton Soup',
     nameEn: 'Angelica & Ginger Mutton Soup',
-    description: '溫補陽氣的經典湯品，適合陽虛怕冷、手腳冰冷人士，冬季進補首選。',
+    description: 'A classic warming yang soup, ideal for cold sensitivity and cold hands and feet, especially in winter.',
     price: 128,
     originalPrice: 158,
-    image: 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=600&h=400&fit=crop',
-    tags: ['溫陽', '驅寒', '冬季進補'],
-    ingredients: ['當歸 10g', '生薑 20g', '羊肉 300g', '枸杞 8g', '紅棗 4顆'],
-    benefits: ['溫中暖下', '補血活血', '驅寒止痛', '改善手腳冰冷'],
+    image: '/images/soup-002.jpg',
+    tags: ['Warm Yang', 'Dispels Cold', 'Winter Tonic'],
+    ingredients: ['Angelica Root 10g', 'Fresh Ginger 20g', 'Mutton 300g', 'Goji Berry 8g', 'Red Dates x4'],
+    benefits: ['Warms the Core', 'Nourishes and Activates Blood', 'Relieves Cold Pain', 'Eases Cold Limbs'],
     suitableFor: ['yang-deficiency'],
-    cookTime: '120分鐘',
+    cookTime: '120 mins',
     servings: 2,
   },
   {
     id: 'demo-004',
-    name: '百合銀耳潤肺湯',
+    name: 'Lily & Snow Fungus Nourishing Soup',
     nameEn: 'Lily & Snow Fungus Nourishing Soup',
-    description: '滋陰潤肺，清心安神的養顏湯品，適合陰虛燥熱、失眠多夢人士。',
+    description: 'Nourishes yin and moistens the lungs while calming the mind, suitable for dryness, heat signs, and poor sleep.',
     price: 68,
     originalPrice: 88,
-    image: 'https://images.unsplash.com/photo-1608219992759-8d74ed8d1d56?w=600&h=400&fit=crop',
-    tags: ['滋陰', '潤肺', '美容'],
-    ingredients: ['百合 20g', '銀耳 15g', '蓮子 15g', '枸杞 10g', '冰糖 適量'],
-    benefits: ['滋陰潤肺', '清心安神', '美容養顏', '改善睡眠'],
+    image: '/images/soup-003.jpg',
+    tags: ['Nourish Yin', 'Moisten Lungs', 'Beauty Care'],
+    ingredients: ['Lily Bulb 20g', 'Snow Fungus 15g', 'Lotus Seed 15g', 'Goji Berry 10g', 'Rock Sugar to taste'],
+    benefits: ['Nourishes Yin and Lungs', 'Calms the Mind', 'Supports Skin Health', 'Improves Sleep'],
     suitableFor: ['yin-deficiency'],
-    cookTime: '60分鐘',
+    cookTime: '60 mins',
     servings: 2,
   },
 ]
@@ -103,7 +103,7 @@ export default function SoupRecommend() {
       {/* Header */}
       <div className="bg-white/90 backdrop-blur-md px-4 py-4 flex items-center shadow-sm sticky top-0 z-20">
         <ArrowLeft className="w-6 h-6 text-tcm-ink cursor-pointer" onClick={() => navigate(-1)} />
-        <h1 className="title-md flex-1 text-center">推薦湯包</h1>
+        <h1 className="title-md flex-1 text-center">Recommended Soups</h1>
         <div className="w-6"></div>
       </div>
 
@@ -113,12 +113,12 @@ export default function SoupRecommend() {
           <div className="bg-tcm-green/10 rounded-xl p-4 flex items-center">
             <img 
               src={currentConstitution.image} 
-              alt={currentConstitution.name}
+              alt={currentConstitution.nameEn}
               className="w-12 h-12 rounded-full object-cover mr-3"
             />
             <div className="flex-1">
-              <p className="text-sm text-gray-600">根據您的體質</p>
-              <p className="font-semibold text-tcm-green">{currentConstitution.name} 為您推薦</p>
+              <p className="text-sm text-gray-600">Based on your constitution</p>
+              <p className="font-semibold text-tcm-green">Recommended for {currentConstitution.nameEn}</p>
             </div>
           </div>
         ) : (
@@ -127,8 +127,8 @@ export default function SoupRecommend() {
               <Sparkles className="w-6 h-6 text-tcm-brown" />
             </div>
             <div className="flex-1">
-              <p className="text-sm text-gray-600">熱門精選</p>
-              <p className="font-semibold text-tcm-brown">本週最受歡迎的養生湯包</p>
+              <p className="text-sm text-gray-600">Popular Picks</p>
+              <p className="font-semibold text-tcm-brown">This week's most popular wellness soups</p>
             </div>
           </div>
         )}
@@ -144,12 +144,12 @@ export default function SoupRecommend() {
                 <div className="h-40 relative">
                   <img 
                     src={soup.image} 
-                    alt={soup.name}
+                    alt={soup.nameEn}
                     className="w-full h-full object-cover"
                   />
                   {soup.isHot && (
                     <div className="absolute top-3 left-3">
-                      <span className="tag bg-tcm-red text-white">熱銷</span>
+                      <span className="tag bg-tcm-red text-white">Hot</span>
                     </div>
                   )}
                   <div className="absolute top-3 right-3">
@@ -163,7 +163,7 @@ export default function SoupRecommend() {
                 {/* Content */}
                 <div className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="title-md text-base">{soup.name}</h3>
+                    <h3 className="title-md text-base">{soup.nameEn}</h3>
                     <div className="text-right">
                       <p className="text-tcm-red font-bold text-lg">${soup.price}</p>
                       <p className="text-gray-400 text-xs line-through">${soup.originalPrice}</p>
@@ -181,7 +181,7 @@ export default function SoupRecommend() {
 
                   {/* Benefits */}
                   <div className="bg-tcm-paper rounded-lg p-3 mb-4">
-                    <p className="text-xs text-gray-500 mb-1">主要功效</p>
+                    <p className="text-xs text-gray-500 mb-1">Key Benefits</p>
                     <div className="flex flex-wrap gap-2">
                       {soup.benefits.slice(0, 3).map(benefit => (
                         <span key={benefit} className="text-xs text-tcm-brown">
@@ -195,7 +195,7 @@ export default function SoupRecommend() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-xs text-gray-500">
                       <Users className="w-4 h-4 mr-1" />
-                      {soup.servings}人份
+                      {soup.servings} servings
                     </div>
                     <div className="flex items-center gap-2">
                       {getQuantity(soup.id) > 0 && (
@@ -228,7 +228,7 @@ export default function SoupRecommend() {
             <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4">
               <ShoppingCart className="w-8 h-8 text-gray-400" />
             </div>
-            <p className="text-gray-500">暫無推薦湯包</p>
+            <p className="text-gray-500">No soups available</p>
           </div>
         )}
       </div>
@@ -247,12 +247,12 @@ export default function SoupRecommend() {
               <div>
                 <p className="font-bold text-lg">${totalPrice}</p>
                 {savings > 0 && (
-                  <p className="text-xs text-tcm-red">已省 ${savings}</p>
+                  <p className="text-xs text-tcm-red">Saved $${savings}</p>
                 )}
               </div>
             </div>
             <button className="btn-primary px-6" onClick={() => navigate('/order')}>
-              去結算
+              Checkout
             </button>
           </div>
         </div>

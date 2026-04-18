@@ -5,6 +5,7 @@ import type { ConstitutionType, TestResult, UserInfo } from '@/types'
 interface UserState {
   testAnswers: { questionId: number; constitution: string; score: number }[]
   testResult: TestResult | null
+  currentConstitution: ConstitutionType | null
   userInfo: UserInfo
   addAnswer: (questionId: number, constitution: string, score: number) => void
   setTestResult: (result: TestResult) => void
@@ -17,6 +18,7 @@ export const useUserStore = create<UserState>()(
     (set, get) => ({
       testAnswers: [],
       testResult: null,
+      currentConstitution: null,
       userInfo: {
         name: '',
         phone: '',
@@ -37,7 +39,7 @@ export const useUserStore = create<UserState>()(
       },
 
       setTestResult: (result) => {
-        set({ testResult: result })
+        set({ testResult: result, currentConstitution: result.primary })
       },
 
       clearTest: () => {

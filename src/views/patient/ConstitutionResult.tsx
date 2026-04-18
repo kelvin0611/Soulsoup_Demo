@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, BarChart3, Heart } from 'lucide-react'
+import { ArrowLeft, BarChart3, Heart, MessageCircle } from 'lucide-react'
 import ReactECharts from 'echarts-for-react'
 import { useUserStore } from '@/stores/userStore'
 import { constitutionTypes } from '@/mocks/constitutions'
@@ -28,7 +28,7 @@ export default function ConstitutionResult() {
     if (!testResult) return {}
     
     const indicators = constitutionTypes.slice(0, 8).map(c => ({
-      name: c.name,
+      name: c.nameEn,
       max: 16,
     }))
     
@@ -65,7 +65,7 @@ export default function ConstitutionResult() {
         type: 'radar',
         data: [{
           value: data,
-          name: '您的體質',
+          name: 'Your Constitution',
           areaStyle: {
             color: 'rgba(74, 124, 89, 0.3)',
           },
@@ -96,8 +96,8 @@ export default function ConstitutionResult() {
         <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4">
           <BarChart3 className="w-8 h-8 text-gray-400" />
         </div>
-        <p className="text-gray-500 mb-4">還沒有檢測結果</p>
-        <button className="btn-primary" onClick={handleRetakeTest}>開始檢測</button>
+        <p className="text-gray-500 mb-4">No test result yet</p>
+        <button className="btn-primary" onClick={handleRetakeTest}>Start Test</button>
       </div>
     )
   }
@@ -107,7 +107,7 @@ export default function ConstitutionResult() {
       {/* Header */}
       <div className="bg-white/90 backdrop-blur-md px-4 py-4 flex items-center shadow-sm sticky top-0 z-20">
         <ArrowLeft className="w-6 h-6 text-tcm-ink cursor-pointer" onClick={() => navigate(-1)} />
-        <h1 className="title-md flex-1 text-center">體質報告</h1>
+        <h1 className="title-md flex-1 text-center">Constitution Report</h1>
         <div className="w-6"></div>
       </div>
 
@@ -124,7 +124,7 @@ export default function ConstitutionResult() {
             
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-white/80 text-sm">您的體質類型</span>
+                <span className="text-white/80 text-sm">Your Constitution Type</span>
                 <img 
                   src={testResult.primary.image} 
                   alt={testResult.primary.name}
@@ -148,7 +148,7 @@ export default function ConstitutionResult() {
           <div className="bg-white rounded-2xl p-4 shadow-sm">
             <h3 className="title-md mb-4 flex items-center">
               <BarChart3 className="w-5 h-5 mr-2 text-tcm-green" />
-              體質分析圖
+              Constitution Analysis
             </h3>
             <div className="h-64">
               <ReactECharts option={chartOption} style={{ height: '100%', width: '100%' }} />
@@ -159,7 +159,7 @@ export default function ConstitutionResult() {
         {/* Characteristics */}
         <div className="px-4 pb-4">
           <div className="bg-white rounded-2xl p-4 shadow-sm">
-            <h3 className="title-md mb-3">主要特徵</h3>
+            <h3 className="title-md mb-3">Key Characteristics</h3>
             <div className="flex flex-wrap gap-2">
               {testResult.primary.characteristics.map((char, index) => (
                 <span key={index} className="tag tag-green">
@@ -175,7 +175,7 @@ export default function ConstitutionResult() {
           <div className="bg-white rounded-2xl p-4 shadow-sm">
             <h3 className="title-md mb-3 flex items-center">
               <Heart className="w-5 h-5 mr-2 text-tcm-red" />
-              推薦食材
+              Recommended Ingredients
             </h3>
             <div className="flex flex-wrap gap-2">
               {testResult.primary.recommendations.map((food, index) => (
@@ -188,16 +188,33 @@ export default function ConstitutionResult() {
         </div>
 
         {/* CTA */}
-        <div className="px-4 pb-8">
+        <div className="px-4 pb-8 space-y-3">
           <button className="btn-primary w-full flex items-center justify-center" onClick={handleGoToSoups}>
-            <span>查看推薦湯包</span>
+            <span>View Recommended Soups</span>
             <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
           </button>
-          <p className="text-center text-xs text-gray-400 mt-3">
-            根據您的{testResult.primary.name}精心配製
+          <button 
+            className="btn-secondary w-full flex items-center justify-center"
+            onClick={() => navigate('/chat')}
+          >
+            <MessageCircle className="w-4 h-4 mr-2" />
+            <span>Ask AI Consultant</span>
+          </button>
+          <p className="text-center text-xs text-gray-400">
+            Specially formulated for your {testResult.primary.nameEn} constitution
           </p>
         </div>
       </div>
+
+      {/* Floating Chat Button */}
+      <button
+        onClick={() => navigate('/chat')}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-tcm-green rounded-full shadow-lg flex items-center justify-center z-30 hover:bg-opacity-90 active:scale-95 transition-all"
+        style={{ maxWidth: '480px', right: 'max(24px, calc(50% - 216px))' }}
+      >
+        <MessageCircle className="w-6 h-6 text-white" />
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-tcm-red rounded-full border-2 border-white"></span>
+      </button>
 
       <style>{`
         .result-page {

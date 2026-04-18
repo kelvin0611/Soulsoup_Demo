@@ -59,7 +59,7 @@ export interface MedicalRecord {
 export interface Patient {
   id: string
   name: string
-  gender: '男' | '女'
+  gender: 'Male' | 'Female'
   age: number
   phone: string
   constitution: string
@@ -85,4 +85,14 @@ export interface DoctorInfo {
   name: string
   title: string
   clinic: string
+}
+
+// Chat Types
+export interface ChatMessage {
+  id: string
+  role: 'user' | 'bot'
+  content: string
+  timestamp: number
+  soupCard?: SoupPack
+  suggestions?: string[]
 }

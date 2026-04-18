@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Leaf, Stethoscope, ChevronRight } from 'lucide-react'
+import { Leaf, Stethoscope, MessageCircle, ChevronRight } from 'lucide-react'
 
 export default function Welcome() {
   const navigate = useNavigate()
@@ -19,16 +19,16 @@ export default function Welcome() {
           <div className="w-20 h-20 bg-tcm-green/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Leaf className="w-10 h-10 text-tcm-green" />
           </div>
-          <h1 className="title-xl text-3xl mb-2 text-tcm-green">靈湯</h1>
+          <h1 className="title-xl text-3xl mb-2 text-tcm-green">SoulSoup</h1>
           <p className="text-tcm-brown text-sm tracking-widest">SOULSOUP</p>
-          <p className="text-body mt-3">智慧中醫養生平台</p>
+          <p className="text-body mt-3">AI-Powered TCM Wellness Platform</p>
         </div>
 
         {/* Tagline */}
         <div className="text-center mb-12 animate-slide-up" style={{ animationDelay: '0.2s' }}>
           <p className="text-tcm-ink text-lg leading-relaxed">
-            測體質 · 配湯包<br />
-            <span className="text-tcm-brown text-sm">傳承千年中醫智慧</span>
+            Discover Your Constitution · Find Your Soup<br />
+            <span className="text-tcm-brown text-sm">Rooted in Thousands of Years of TCM Wisdom</span>
           </p>
         </div>
 
@@ -44,8 +44,25 @@ export default function Welcome() {
                 <Leaf className="w-7 h-7 text-tcm-green" />
               </div>
               <div className="flex-1">
-                <h3 className="title-md text-tcm-green">我是顧客</h3>
-                <p className="text-body text-xs mt-1">測體質 · 選湯包 · 養生調理</p>
+                <h3 className="title-md text-tcm-green">I'm a Customer</h3>
+                <p className="text-body text-xs mt-1">Test Constitution · Choose Soups · Stay Healthy</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-tcm-brown" />
+            </div>
+          </div>
+
+          {/* AI Chatbot entry */}
+          <div 
+            className="card-hover bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-tcm-gold/30 cursor-pointer"
+            onClick={() => navigate('/chat')}
+          >
+            <div className="flex items-center">
+              <div className="w-14 h-14 bg-tcm-gold/20 rounded-xl flex items-center justify-center mr-4">
+                <MessageCircle className="w-7 h-7 text-tcm-brown" />
+              </div>
+              <div className="flex-1">
+                <h3 className="title-md text-tcm-brown">TCM AI Consultant</h3>
+                <p className="text-body text-xs mt-1">Ask Questions · Get Advice · 24/7</p>
               </div>
               <ChevronRight className="w-5 h-5 text-tcm-brown" />
             </div>
@@ -61,8 +78,8 @@ export default function Welcome() {
                 <Stethoscope className="w-7 h-7 text-tcm-brown" />
               </div>
               <div className="flex-1">
-                <h3 className="title-md text-tcm-brown">我是中醫師</h3>
-                <p className="text-body text-xs mt-1">病歷管理 · 體質分析 · 智能輔助</p>
+                <h3 className="title-md text-tcm-brown">I'm a TCM Practitioner</h3>
+                <p className="text-body text-xs mt-1">Records · Analysis · AI Assistance</p>
               </div>
               <ChevronRight className="w-5 h-5 text-tcm-brown" />
             </div>

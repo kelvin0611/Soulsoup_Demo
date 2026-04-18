@@ -20,27 +20,27 @@ export default function OrderSuccess() {
       </div>
 
       {/* Success message */}
-      <h2 className="title-xl mb-2">訂單提交成功</h2>
+      <h2 className="title-xl mb-2">Order Placed Successfully</h2>
       <p className="text-body text-center mb-8">
-        您的養生湯包訂單已確認<br />
-        我們將盡快為您準備食材
+        Your wellness soup order has been confirmed<br />
+        We will prepare your ingredients as soon as possible
       </p>
 
       {/* Order info */}
       <div className="w-full bg-white rounded-2xl p-6 shadow-lg mb-8">
         <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
-          <span className="text-gray-500">訂單編號</span>
+          <span className="text-gray-500">Order Number</span>
           <span className="font-mono font-medium">#TCM{orderNumber}</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-gray-500">訂單狀態</span>
-          <span className="tag tag-green">已確認</span>
+          <span className="text-gray-500">Order Status</span>
+          <span className="tag tag-green">Confirmed</span>
         </div>
       </div>
 
       {/* QR Code */}
       <div className="bg-white rounded-2xl p-6 shadow-lg mb-8 text-center w-full">
-        <p className="text-sm text-gray-500 mb-4">到店自取請出示此二維碼</p>
+        <p className="text-sm text-gray-500 mb-4">Show this QR code for self pick-up</p>
         <div className="w-40 h-40 bg-tcm-paper rounded-xl mx-auto flex items-center justify-center relative overflow-hidden">
           <div className="qr-pattern">
             {Array.from({ length: 25 }).map((_, i) => (
@@ -53,23 +53,23 @@ export default function OrderSuccess() {
             </div>
           </div>
         </div>
-        <p className="text-xs text-gray-400 mt-3">有效期：7天</p>
+        <p className="text-xs text-gray-400 mt-3">Valid for 7 days</p>
       </div>
 
       {/* Action buttons */}
       <div className="w-full space-y-3">
         <button className="btn-primary w-full flex items-center justify-center" onClick={() => navigate('/')}>
-          <span>返回首頁</span>
+          <span>Back to Home</span>
           <ArrowRight className="w-4 h-4 ml-2" />
         </button>
-        <button className="btn-secondary w-full" onClick={() => alert('訂單詳情功能開發中')}>
-          查看訂單詳情
+        <button className="btn-secondary w-full" onClick={() => alert('Order details feature coming soon')}>
+          View Order Details
         </button>
       </div>
 
       {/* Footer */}
       <p className="text-xs text-gray-400 mt-8 text-center">
-        感謝您選擇靈湯，願您身體健康
+        Thank you for choosing SoulSoup. Wishing you good health!
       </p>
 
       <style>{`

@@ -39,7 +39,7 @@ export default function PatientList() {
       <div className="bg-white px-4 py-4 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="title-lg">患者管理</h1>
+            <h1 className="title-lg">Patient Management</h1>
             <p className="text-xs text-gray-500 mt-1">{doctorInfo.clinic}</p>
           </div>
           <div className="flex items-center gap-2">
@@ -59,7 +59,7 @@ export default function PatientList() {
             type="text"
             value={query}
             onChange={e => handleSearch(e.target.value)}
-            placeholder="搜索患者姓名、電話或體質"
+            placeholder="Search by name, phone or constitution"
             className="input-field pl-12"
           />
         </div>
@@ -67,13 +67,13 @@ export default function PatientList() {
         {/* Stats */}
         <div className="flex gap-2 mt-4">
           <span className="px-3 py-1 bg-tcm-green/10 text-tcm-green rounded-full text-xs">
-            全部 {patients.length}
+            All {patients.length}
           </span>
           <span className="px-3 py-1 bg-tcm-gold/20 text-tcm-brown rounded-full text-xs">
-            今日就診 3
+            Today 3
           </span>
           <span className="px-3 py-1 bg-tcm-red/10 text-tcm-red rounded-full text-xs">
-            待跟進 2
+            Follow-up 2
           </span>
         </div>
       </div>
@@ -108,19 +108,19 @@ export default function PatientList() {
                     </div>
                     <div className="flex items-center text-xs text-gray-500 mb-2">
                       <span className="mr-3">{patient.gender}</span>
-                      <span className="mr-3">{patient.age}歲</span>
+                      <span className="mr-3">{patient.age} y</span>
                       <span>{patient.phone}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="tag tag-green text-xs">{patient.constitution}</span>
-                      <span className="text-xs text-gray-400">{patient.totalVisits}次就診</span>
+                      <span className="text-xs text-gray-400">{patient.totalVisits} visits</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Last visit */}
                 <div className="mt-3 pt-3 border-t border-gray-100 flex items-center text-xs">
-                  <span className="text-gray-500">上次就診：{patient.lastVisit}</span>
+                  <span className="text-gray-500">Last Visit: {patient.lastVisit}</span>
                 </div>
               </div>
             ))}
@@ -128,7 +128,7 @@ export default function PatientList() {
         ) : (
           <div className="flex flex-col items-center justify-center py-12">
             <Search className="w-16 h-16 text-gray-300 mb-4" />
-            <p className="text-gray-500">沒有找到患者</p>
+            <p className="text-gray-500">No patients found</p>
           </div>
         )}
       </div>

@@ -68,14 +68,14 @@ export default function ConstitutionTest() {
       {/* Header */}
       <div className="bg-white/90 backdrop-blur-md px-4 py-4 flex items-center shadow-sm sticky top-0 z-20">
         <ArrowLeft className="w-6 h-6 text-tcm-ink cursor-pointer" onClick={() => navigate(-1)} />
-        <h1 className="title-md flex-1 text-center">體質檢測</h1>
+        <h1 className="title-md flex-1 text-center">Constitution Test</h1>
         <div className="w-6"></div>
       </div>
 
       {/* Progress */}
       <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-gray-500">進度</span>
+          <span className="text-sm text-gray-500">Progress</span>
           <span className="text-sm font-medium text-tcm-green">{currentIndex + 1} / {questions.length}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -130,7 +130,7 @@ export default function ConstitutionTest() {
               className="btn-secondary flex-1"
               onClick={prevQuestion}
             >
-              上一題
+              Previous
             </button>
           )}
           <button 
@@ -138,7 +138,7 @@ export default function ConstitutionTest() {
             disabled={selectedOption === null}
             onClick={nextQuestion}
           >
-            {isLastQuestion ? '查看結果' : '下一題'}
+            {isLastQuestion ? 'View Results' : 'Next'}
           </button>
         </div>
       </div>
@@ -148,8 +148,8 @@ export default function ConstitutionTest() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 flex flex-col items-center">
             <Loader2 className="w-12 h-12 text-tcm-green animate-spin" />
-            <p className="mt-4 text-tcm-ink">AI 分析中...</p>
-            <p className="text-xs text-gray-500 mt-2">正在計算您的體質類型</p>
+            <p className="mt-4 text-tcm-ink">AI Analysing...</p>
+            <p className="text-xs text-gray-500 mt-2">Calculating your body constitution type</p>
           </div>
         </div>
       )}

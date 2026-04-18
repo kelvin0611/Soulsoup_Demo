@@ -22,9 +22,9 @@ export const useDoctorStore = create<DoctorState>()(
     (set, get) => ({
       isLoggedIn: false,
       doctorInfo: {
-        name: '黃中醫師',
-        title: '註冊中醫師',
-        clinic: '仁和堂中醫診所',
+        name: 'Dr. Huang',
+        title: 'Registered TCM Practitioner',
+        clinic: 'Renhe TCM Clinic',
       },
       currentPatient: null,
       searchQuery: '',

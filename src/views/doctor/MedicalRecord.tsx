@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Camera, Loader2, Check } from 'lucide-react'
-import { useDoctorStore } from '@/stores/doctorStore'
 import { constitutionTypes } from '@/mocks/constitutions'
 import { getPatientById, patients, addMedicalRecord } from '@/mocks/patients'
 import type { Patient } from '@/types'
@@ -15,7 +14,7 @@ export default function MedicalRecord() {
   
   const [newPatient, setNewPatient] = useState({
     name: '',
-    gender: '男' as '男' | '女',
+    gender: 'Male' as 'Male' | 'Female',
     age: 30,
     phone: '',
   })
@@ -48,26 +47,21 @@ export default function MedicalRecord() {
 
     setTimeout(() => {
       setShowOCRLoading(false)
-      setOcrResult(`辨識結果：
-主訴：頭暈乏力，睡眠欠佳
-舌象：舌淡紅，苔薄白
-脈象：脈細弱
-診斷：氣血兩虛
-方藥：八珍湯加減`)
+      setOcrResult(`OCR Result:\nChief Complaint: Dizziness, fatigue, poor sleep\nTongue: Pale red tongue, thin white coating\nPulse: Thin and weak pulse\nDiagnosis: Qi and Blood Deficiency\nPrescription: Modified Bazhen Decoction`)
 
       setForm(prev => ({
         ...prev,
-        symptoms: '頭暈乏力，睡眠欠佳，面色蒼白',
-        constitution: '氣虛質',
-        diagnosis: '氣血兩虛證',
-        prescription: '八珍湯加減：黨參12g、白朮10g、茯苓12g、當歸10g、川芎6g、熟地黃12g、白芍10g、炙甘草6g',
+        symptoms: 'Dizziness, fatigue, poor sleep, pale complexion',
+        constitution: 'Qi Deficiency',
+        diagnosis: 'Qi and Blood Deficiency Pattern',
+        prescription: 'Modified Bazhen Decoction: Codonopsis 12g, Atractylodes 10g, Poria 12g, Angelica 10g, Chuanxiong 6g, Rehmannia 12g, White Peony 10g, Honey-fried Licorice 6g',
       }))
     }, 2500)
   }
 
   const handleSave = () => {
     if (!form.symptoms || !form.diagnosis) {
-      alert('請填寫完整病歷信息')
+      alert('Please complete the medical record')
       return
     }
 
@@ -107,7 +101,7 @@ export default function MedicalRecord() {
       }
 
       setSaving(false)
-      alert('病歷保存成功')
+      alert('Record saved successfully')
       navigate('/doctor/patients')
     }, 1000)
   }
@@ -119,8 +113,8 @@ export default function MedicalRecord() {
         <div className="flex items-center">
           <ArrowLeft className="w-6 h-6 text-tcm-ink cursor-pointer mr-4" onClick={() => navigate(-1)} />
           <div className="flex-1">
-            <h1 className="title-md">{isNew ? '新建病歷' : '病歷詳情'}</h1>
-            {patient && <p className="text-xs text-gray-500">{patient.name} {patient.gender} {patient.age}歲</p>}
+            <h1 className="title-md">{isNew ? 'New Record' : 'Record Details'}</h1>
+            {patient && <p className="text-xs text-gray-500">{patient.name} {patient.gender} {patient.age} y</p>}
           </div>
         </div>
       </div>
@@ -129,48 +123,48 @@ export default function MedicalRecord() {
         {/* New patient info */}
         {isNew && (
           <div className="p-4 bg-white mb-2">
-            <h3 className="title-md mb-4">患者基本信息</h3>
+            <h3 className="title-md mb-4">Patient Basic Info</h3>
             <div className="space-y-4">
               <div>
-                <label className="text-sm text-gray-500 block mb-2">姓名</label>
+                <label className="text-sm text-gray-500 block mb-2">Name</label>
                 <input
                   type="text"
                   value={newPatient.name}
                   onChange={e => setNewPatient({ ...newPatient, name: e.target.value })}
-                  placeholder="請輸入患者姓名"
+                  placeholder="Enter patient name"
                   className="input-field"
                 />
               </div>
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <label className="text-sm text-gray-500 block mb-2">性別</label>
+                  <label className="text-sm text-gray-500 block mb-2">Gender</label>
                   <select
                     value={newPatient.gender}
-                    onChange={e => setNewPatient({ ...newPatient, gender: e.target.value as '男' | '女' })}
+                    onChange={e => setNewPatient({ ...newPatient, gender: e.target.value as 'Male' | 'Female' })}
                     className="select-field"
                   >
-                    <option value="男">男</option>
-                    <option value="女">女</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                   </select>
                 </div>
                 <div className="flex-1">
-                  <label className="text-sm text-gray-500 block mb-2">年齡</label>
+                  <label className="text-sm text-gray-500 block mb-2">Age</label>
                   <input
                     type="number"
                     value={newPatient.age}
                     onChange={e => setNewPatient({ ...newPatient, age: parseInt(e.target.value) || 0 })}
-                    placeholder="年齡"
+                    placeholder="Age"
                     className="input-field"
                   />
                 </div>
               </div>
               <div>
-                <label className="text-sm text-gray-500 block mb-2">聯絡電話</label>
+                <label className="text-sm text-gray-500 block mb-2">Phone</label>
                 <input
                   type="tel"
                   value={newPatient.phone}
                   onChange={e => setNewPatient({ ...newPatient, phone: e.target.value })}
-                  placeholder="請輸入電話號碼"
+                  placeholder="Enter phone number"
                   className="input-field"
                 />
               </div>
@@ -181,13 +175,13 @@ export default function MedicalRecord() {
         {/* OCR Upload */}
         <div className="p-4 bg-white mb-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="title-md">病歷資料</h3>
+            <h3 className="title-md">Medical Record Data</h3>
             <button 
               className="flex items-center text-tcm-green text-sm"
               onClick={triggerOCR}
             >
               <Camera className="w-4 h-4 mr-1" />
-              OCR識別
+              OCR Scan
             </button>
           </div>
 
@@ -197,8 +191,8 @@ export default function MedicalRecord() {
               onClick={triggerOCR}
             >
               <Camera className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-              <p className="text-sm text-gray-500">點擊上傳手寫病歷</p>
-              <p className="text-xs text-gray-400 mt-1">支持拍照或相冊選擇</p>
+              <p className="text-sm text-gray-500">Tap to upload handwritten record</p>
+              <p className="text-xs text-gray-400 mt-1">Supports camera or gallery</p>
             </div>
           )}
 
@@ -207,7 +201,7 @@ export default function MedicalRecord() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white">
                   <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
-                  <p className="text-sm">正在識別...</p>
+                  <p className="text-sm">Scanning...</p>
                 </div>
               </div>
               <div className="scan-line absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-tcm-green to-transparent"></div>
@@ -219,9 +213,9 @@ export default function MedicalRecord() {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-tcm-green flex items-center">
                   <Check className="w-4 h-4 mr-1" />
-                  識別結果
+                  Scan Result
                 </span>
-                <button className="text-xs text-gray-500" onClick={() => setOcrResult('')}>重新識別</button>
+                <button className="text-xs text-gray-500" onClick={() => setOcrResult('')}>Rescan</button>
               </div>
               <p className="text-sm text-gray-700 whitespace-pre-line">{ocrResult}</p>
             </div>
@@ -232,7 +226,7 @@ export default function MedicalRecord() {
         <div className="p-4 bg-white mb-2">
           <div className="space-y-4">
             <div>
-              <label className="text-sm text-gray-500 block mb-2">就診日期</label>
+              <label className="text-sm text-gray-500 block mb-2">Visit Date</label>
               <input
                 type="date"
                 value={form.date}
@@ -242,18 +236,18 @@ export default function MedicalRecord() {
             </div>
 
             <div>
-              <label className="text-sm text-gray-500 block mb-2">症狀描述</label>
+              <label className="text-sm text-gray-500 block mb-2">Symptoms</label>
               <textarea
                 value={form.symptoms}
                 onChange={e => setForm({ ...form, symptoms: e.target.value })}
                 rows={3}
-                placeholder="請輸入患者症狀"
+                placeholder="Enter patient symptoms"
                 className="textarea-field"
               ></textarea>
             </div>
 
             <div>
-              <label className="text-sm text-gray-500 block mb-2">體質判斷</label>
+              <label className="text-sm text-gray-500 block mb-2">Constitution</label>
               <select
                 value={form.constitution}
                 onChange={e => setForm({ ...form, constitution: e.target.value })}
@@ -266,34 +260,34 @@ export default function MedicalRecord() {
             </div>
 
             <div>
-              <label className="text-sm text-gray-500 block mb-2">中醫診斷</label>
+              <label className="text-sm text-gray-500 block mb-2">TCM Diagnosis</label>
               <input
                 type="text"
                 value={form.diagnosis}
                 onChange={e => setForm({ ...form, diagnosis: e.target.value })}
-                placeholder="如：脾胃氣虛證"
+                placeholder="e.g., Spleen-Stomach Qi Deficiency"
                 className="input-field"
               />
             </div>
 
             <div>
-              <label className="text-sm text-gray-500 block mb-2">處方用藥</label>
+              <label className="text-sm text-gray-500 block mb-2">Prescription</label>
               <textarea
                 value={form.prescription}
                 onChange={e => setForm({ ...form, prescription: e.target.value })}
                 rows={4}
-                placeholder="請輸入處方藥物及劑量"
+                placeholder="Enter prescription and dosage"
                 className="textarea-field"
               ></textarea>
             </div>
 
             <div>
-              <label className="text-sm text-gray-500 block mb-2">醫囑備註</label>
+              <label className="text-sm text-gray-500 block mb-2">Notes</label>
               <textarea
                 value={form.notes}
                 onChange={e => setForm({ ...form, notes: e.target.value })}
                 rows={2}
-                placeholder="其他需要記錄的信息"
+                placeholder="Other information to record"
                 className="textarea-field"
               ></textarea>
             </div>
@@ -303,7 +297,7 @@ export default function MedicalRecord() {
         {/* History timeline */}
         {patient && patient.records.length > 0 && (
           <div className="p-4">
-            <h3 className="title-md mb-4">歷史病歷</h3>
+            <h3 className="title-md mb-4">History</h3>
             <div className="relative">
               <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
               <div className="space-y-4">
@@ -334,7 +328,7 @@ export default function MedicalRecord() {
           onClick={handleSave}
         >
           {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-          {saving ? '保存中...' : '保存病歷'}
+          {saving ? 'Saving...' : 'Save Record'}
         </button>
       </div>
 

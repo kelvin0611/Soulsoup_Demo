@@ -16,7 +16,7 @@ export default function DoctorLogin() {
 
   const handleLogin = () => {
     if (!form.username || !form.password) {
-      setError('請輸入用戶名和密碼')
+      setError('Please enter username and password')
       return
     }
 
@@ -28,7 +28,7 @@ export default function DoctorLogin() {
       if (success) {
         navigate('/doctor/patients')
       } else {
-        setError('密碼錯誤，請重試')
+        setError('Incorrect password, please try again')
       }
       setLoading(false)
     }, 800)
@@ -48,8 +48,8 @@ export default function DoctorLogin() {
           <div className="w-20 h-20 bg-tcm-green/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <User className="w-10 h-10 text-tcm-green" />
           </div>
-          <h1 className="title-xl">醫師登入</h1>
-          <p className="text-body mt-2">仁和堂中醫診所管理系統</p>
+          <h1 className="title-xl">Doctor Login</h1>
+          <p className="text-body mt-2">Renhe TCM Clinic Management System</p>
         </div>
 
         {/* Form */}
@@ -61,7 +61,7 @@ export default function DoctorLogin() {
                 type="text"
                 value={form.username}
                 onChange={e => setForm({ ...form, username: e.target.value })}
-                placeholder="請輸入用戶名"
+                placeholder="Enter username"
                 className="flex-1 bg-transparent outline-none text-sm"
               />
             </div>
@@ -74,7 +74,7 @@ export default function DoctorLogin() {
                 type="password"
                 value={form.password}
                 onChange={e => setForm({ ...form, password: e.target.value })}
-                placeholder="請輸入密碼"
+                placeholder="Enter password"
                 className="flex-1 bg-transparent outline-none text-sm"
                 onKeyDown={e => e.key === 'Enter' && handleLogin()}
               />
@@ -91,18 +91,18 @@ export default function DoctorLogin() {
             onClick={handleLogin}
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-            {loading ? '登入中...' : '登入'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
 
           <p className="text-center text-xs text-gray-400 mt-4">
-            Demo 密碼：123456
+            Demo Password: 123456
           </p>
         </div>
       </div>
 
       {/* Footer */}
       <div className="py-6 text-center">
-        <p className="text-xs text-gray-400">TCM ClinicLink 醫師端</p>
+        <p className="text-xs text-gray-400">TCM ClinicLink Doctor Portal</p>
       </div>
 
       <style>{`
