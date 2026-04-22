@@ -1,150 +1,150 @@
-# SoulSoup 靈湯 - 智慧中醫養生平台
+# SoulSoup - Smart TCM Wellness Platform
 
-TCM ClinicLink 是一個整合中醫診所管理與個人化養生服務的 B2B2C 數位健康平台，連結專業中醫服務與日常預防保健。
+TCM ClinicLink is a B2B2C digital health platform that integrates Traditional Chinese Medicine (TCM) clinic management with personalized wellness services, connecting professional TCM care with daily preventive healthcare.
 
-## 功能特性
+## Features
 
-### 顧客端（C端）
+### Customer Side (C-side)
 
-- **體質檢測**：8 題問卷式體質測試，採用中醫九種體質分類標準
-- **體質分析報告**：雷達圖視覺化展示體質分佈，提供個人化特徵解讀
-- **智能湯包推薦**：依據體質結果推薦適合的藥膳食療湯包
-- **線上購物車**：支援商品加減、數量調整、價格計算
-- **訂單確認**：填寫配送資訊，選擇配送方式（標準配送/快速配送/到店自取）
-- **訂單完成**：顯示訂單編號與取貨 QR Code
+- **Constitution Assessment**: An 8-question, questionnaire-based constitution test using the TCM nine-constitution classification standard
+- **Constitution Analysis Report**: Radar chart visualization of constitution distribution with personalized trait interpretation
+- **Smart Herbal Soup Recommendation**: Recommends suitable medicinal dietary soup packs based on constitution results
+- **Online Shopping Cart**: Supports adding/removing items, quantity adjustment, and price calculation
+- **Order Confirmation**: Fill in delivery information and choose a delivery method (standard delivery/express delivery/store pickup)
+- **Order Completion**: Displays order number and pickup QR Code
 
-### 醫師端（B端）
+### Doctor Side (B-side)
 
-- **醫師登入**：安全的身份驗證系統（Demo 密碼：123456）
-- **患者管理**：患者列表瀏覽、搜尋功能、基本資訊查看
-- **病歷記錄**：新增與編輯病歷，記錄症狀、診斷、處方
-- **OCR 識別**：模擬手寫病歷掃描與文字識別功能
-- **時間軸歷史**：以時間軸形式展示患者過往就診記錄
+- **Doctor Login**: Secure authentication system (Demo password: 123456)
+- **Patient Management**: Patient list browsing, search functionality, and basic information viewing
+- **Medical Record Logging**: Add and edit medical records, including symptoms, diagnosis, and prescriptions
+- **OCR Recognition**: Simulated handwritten medical record scanning and text recognition
+- **Timeline History**: Displays patients' past visit records in a timeline format
 
-## 技術棧
+## Tech Stack
 
-- **前端框架**：React 18 + TypeScript
-- **構建工具**：Vite 5
-- **路由管理**：React Router v6
-- **狀態管理**：Zustand（支援 Persist 本地儲存）
-- **樣式方案**：Tailwind CSS
-- **圖示庫**：Lucide React
-- **圖表組件**：ECharts + echarts-for-react
-- **圖片來源**：Unsplash 免費圖庫
+- **Frontend Framework**: React 18 + TypeScript
+- **Build Tool**: Vite 5
+- **Routing**: React Router v6
+- **State Management**: Zustand (with Persist local storage support)
+- **Styling**: Tailwind CSS
+- **Icon Library**: Lucide React
+- **Chart Component**: ECharts + echarts-for-react
+- **Image Source**: Unsplash free image library
 
-## 快速開始
+## Quick Start
 
-### 環境需求
+### Requirements
 
-- Node.js 18.0 或更高版本
-- npm 或 yarn 套件管理器
+- Node.js 18.0 or higher
+- npm or yarn package manager
 
-### 安裝與執行
+### Installation and Run
 
 ```bash
-# 安裝依賴
+# Install dependencies
 npm install
 
-# 啟動開發伺服器
+# Start development server
 npm run dev
 
-# 建置生產版本
+# Build production version
 npm run build
 
-# 預覽生產版本
+# Preview production version
 npm run preview
 ```
 
-開發伺服器預設運行於 http://localhost:3000/
+The development server runs by default at http://localhost:3000/
 
-## 專案結構
+## Project Structure
 
 ```
 src/
-├── views/                 # 頁面組件
-│   ├── patient/          # 顧客端頁面
-│   │   ├── Welcome.tsx       # 歡迎入口頁
-│   │   ├── ConstitutionTest.tsx    # 體質測試
-│   │   ├── ConstitutionResult.tsx  # 測試結果
-│   │   ├── SoupRecommend.tsx       # 湯包推薦
-│   │   ├── OrderConfirm.tsx        # 訂單確認
-│   │   └── OrderSuccess.tsx        # 訂單成功
-│   └── doctor/           # 醫師端頁面
-│       ├── Login.tsx           # 登入頁
-│       ├── PatientList.tsx     # 患者列表
-│       └── MedicalRecord.tsx   # 病歷詳情
-├── stores/               # Zustand 狀態管理
-│   ├── userStore.ts      # 用戶狀態（體質測試結果）
-│   ├── cartStore.ts      # 購物車狀態
-│   └── doctorStore.ts    # 醫師狀態
-├── mocks/                # 模擬資料
-│   ├── constitutions.ts  # 九種體質定義
-│   ├── soups.ts          # 湯包商品資料
-│   └── patients.ts       # 患者資料
-├── types/                # TypeScript 型別定義
-├── assets/styles/        # 全域樣式
-└── App.tsx               # 應用根組件
+├── views/                 # Page components
+│   ├── patient/          # Customer-side pages
+│   │   ├── Welcome.tsx       # Welcome entry page
+│   │   ├── ConstitutionTest.tsx    # Constitution test
+│   │   ├── ConstitutionResult.tsx  # Test result
+│   │   ├── SoupRecommend.tsx       # Soup recommendation
+│   │   ├── OrderConfirm.tsx        # Order confirmation
+│   │   └── OrderSuccess.tsx        # Order success
+│   └── doctor/           # Doctor-side pages
+│       ├── Login.tsx           # Login page
+│       ├── PatientList.tsx     # Patient list
+│       └── MedicalRecord.tsx   # Medical record details
+├── stores/               # Zustand state management
+│   ├── userStore.ts      # User state (constitution test result)
+│   ├── cartStore.ts      # Shopping cart state
+│   └── doctorStore.ts    # Doctor state
+├── mocks/                # Mock data
+│   ├── constitutions.ts  # Definition of nine constitutions
+│   ├── soups.ts          # Soup product data
+│   └── patients.ts       # Patient data
+├── types/                # TypeScript type definitions
+├── assets/styles/        # Global styles
+└── App.tsx               # App root component
 ```
 
-## 使用說明
+## Usage Instructions
 
-### 顧客使用流程
+### Customer Flow
 
-1. 訪問首頁，點擊「我是顧客」
-2. 完成 8 題體質檢測問卷
-3. 查看體質分析報告與雷達圖
-4. 瀏覽系統推薦的個人化湯包
-5. 添加商品至購物車
-6. 填寫配送資訊並提交訂單
+1. Visit the homepage and click "I am a Customer"
+2. Complete the 8-question constitution assessment
+3. View the constitution analysis report and radar chart
+4. Browse system-recommended personalized soup packs
+5. Add items to the shopping cart
+6. Fill in delivery information and submit the order
 
-### 醫師使用流程
+### Doctor Flow
 
-1. 訪問首頁，點擊「我是中醫師」
-2. 使用帳號密碼登入（Demo 密碼：123456）
-3. 瀏覽患者列表，或使用搜尋功能查找患者
-4. 點擊患者查看詳情與歷史病歷
-5. 點擊「新增病歷」或使用 OCR 功能識別手寫病歷
-6. 填寫症狀、診斷、處方後保存
+1. Visit the homepage and click "I am a TCM Doctor"
+2. Log in with account and password (Demo password: 123456)
+3. Browse the patient list, or search for a patient
+4. Click a patient to view details and historical medical records
+5. Click "Add Medical Record" or use OCR to identify handwritten medical records
+6. Fill in symptoms, diagnosis, and prescription, then save
 
-## 體質類型
+## Constitution Types
 
-系統依據中醫理論定義九種基本體質：
+The system defines nine basic constitution types based on TCM theory:
 
-- 氣虛質：容易疲倦、說話無力、易出汗
-- 陽虛質：怕冷、手腳冰冷、喜熱飲
-- 陰虛質：口乾咽燥、手腳心熱、失眠多夢
-- 痰濕質：身體肥胖、胸悶痰多、口黏膩
-- 濕熱質：面油、口苦口臭、易生暗瘡
-- 血瘀質：面色晦暗、易有瘀斑、皮膚粗糙
-- 氣鬱質：情緒低落、胸悶、善太息
-- 特稟質：易過敏、患遺傳病、皮膚易起疹
-- 平和質：精力充沛、面色紅潤、睡眠好
+- Qi Deficiency Constitution: Easily fatigued, weak voice, prone to sweating
+- Yang Deficiency Constitution: Sensitive to cold, cold hands and feet, prefers hot drinks
+- Yin Deficiency Constitution: Dry mouth and throat, warm palms and soles, insomnia with vivid dreams
+- Phlegm-Damp Constitution: Obesity, chest tightness with excessive phlegm, sticky mouth sensation
+- Damp-Heat Constitution: Oily face, bitter breath with bad odor, prone to acne
+- Blood Stasis Constitution: Dull complexion, prone to bruising, rough skin
+- Qi Stagnation Constitution: Low mood, chest tightness, frequent sighing
+- Special Diathesis Constitution: Prone to allergies, hereditary diseases, skin rashes
+- Balanced Constitution: Energetic, rosy complexion, good sleep quality
 
-## 資料儲存
+## Data Storage
 
-本專案為純前端 Demo，所有資料儲存於瀏覽器 LocalStorage：
+This project is a pure frontend demo. All data is stored in browser LocalStorage:
 
-- 體質測試結果
-- 購物車內容
-- 用戶配送資訊
-- 醫師登入狀態
+- Constitution test results
+- Shopping cart contents
+- User delivery information
+- Doctor login status
 
-重新整理頁面後資料仍然保留，清除瀏覽器資料將重置所有資訊。
+Data remains after page refresh. Clearing browser data will reset all information.
 
-## 注意事項
+## Notes
 
-- 本專案為示範用途，不涉及真實醫療診斷
-- 所有藥膳建議僅供參考，實際用藥請諮詢專業中醫師
-- 圖片來自 Unsplash 免費圖庫，僅供展示使用
-- OCR 識別功能為模擬效果，非真實圖像識別
+- This project is for demonstration purposes and does not involve real medical diagnosis
+- All medicinal dietary suggestions are for reference only; consult a professional TCM doctor for actual medication use
+- Images are sourced from the Unsplash free image library and used for display purposes only
+- OCR recognition is a simulated effect, not real image recognition
 
-## 設計特色
+## Design Highlights
 
-- **中醫美學**：採用宣紙白、墨黑、藥草綠、藥材棕等傳統配色
-- **行動優先**：針對手機裝置最佳化，最大寬度 480px 容器
-- **流暢動畫**：頁面過渡、卡片滑動、載入動畫等互動效果
-- **無障礙設計**：清晰的視覺層級與觸控友好的按鈕尺寸
+- **TCM Aesthetics**: Uses traditional color schemes such as rice-paper white, ink black, herb green, and medicinal brown
+- **Mobile-First**: Optimized for mobile devices with a maximum container width of 480px
+- **Smooth Animations**: Interactive effects such as page transitions, card sliding, and loading animations
+- **Accessibility Design**: Clear visual hierarchy and touch-friendly button sizes
 
 ## License
 
-本專案為演示用途，僅供學習參考。
+This project is for demonstration purposes and for learning reference only.
