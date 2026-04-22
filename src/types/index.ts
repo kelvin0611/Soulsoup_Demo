@@ -76,9 +76,24 @@ export interface UserInfo {
   address: string
 }
 
+export type DeliveryMethod = 'standard' | 'express' | 'selfpick'
+
 export interface CartItem {
   soup: SoupPack
   quantity: number
+}
+
+export interface OrderRecord {
+  id: string
+  createdAt: string
+  items: CartItem[]
+  userInfo: UserInfo
+  deliveryMethod: DeliveryMethod
+  deliveryFee: number
+  subtotal: number
+  savings: number
+  totalAmount: number
+  status: 'confirmed' | 'preparing' | 'ready'
 }
 
 export interface DoctorInfo {

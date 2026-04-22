@@ -171,7 +171,7 @@ export default function ChatBot() {
             key={msg.id}
             msg={msg}
             onSuggestion={handleSuggestion}
-            onViewSoup={() => navigate('/soups')}
+            onViewSoup={() => navigate('/soups', { state: { fromChat: true } })}
           />
         ))}
 

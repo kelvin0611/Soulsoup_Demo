@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle, ArrowRight } from 'lucide-react'
+import { useOrderStore } from '@/stores/orderStore'
+
+const statusLabelMap = {
+  confirmed: 'Confirmed',
+  preparing: 'Preparing',
+  ready: 'Ready for Pickup',
+}
 
 export default function OrderSuccess() {
   const navigate = useNavigate()
-  const [orderNumber, setOrderNumber] = useState('')
-
-  useEffect(() => {
-    setOrderNumber(Date.now().toString().slice(-8))
-  }, [])
+  const latestOrder = useOrderStore((state) => state.getLatestOrder())
+  const orderNumber = latestOrder?.id.replace('TCM', '') || '--------'
+  const statusLabel = latestOrder ? statusLabelMap[latestOrder.status] : 'Confirmed'
 
   return (
     <div className="success-page min-h-screen flex flex-col items-center justify-center px-6">
@@ -34,7 +38,7 @@ export default function OrderSuccess() {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-gray-500">Order Status</span>
-          <span className="tag tag-green">Confirmed</span>
+          <span className="tag tag-green">{statusLabel}</span>
         </div>
       </div>
 
@@ -62,7 +66,7 @@ export default function OrderSuccess() {
           <span>Back to Home</span>
           <ArrowRight className="w-4 h-4 ml-2" />
         </button>
-        <button className="btn-secondary w-full" onClick={() => alert('Order details feature coming soon')}>
+        <button className="btn-secondary w-full" onClick={() => navigate('/orders/latest')}>
           View Order Details
         </button>
       </div>

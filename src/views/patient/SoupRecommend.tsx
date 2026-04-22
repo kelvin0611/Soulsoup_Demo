@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, Users, Minus, Plus, ShoppingCart, Sparkles } from 'lucide-react'
 import { useUserStore } from '@/stores/userStore'
 import { useCartStore } from '@/stores/cartStore'
 import { getSoupsByConstitution } from '@/mocks/soups'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { SoupPack } from '@/types'
 
 // Hardcoded popular soup examples
@@ -74,8 +74,10 @@ const hotSoupExamples: SoupPack[] = [
 
 export default function SoupRecommend() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { currentConstitution } = useUserStore()
   const { items, totalItems, totalPrice, savings, addToCart, updateQuantity } = useCartStore()
+  const [feedback, setFeedback] = useState('')
 
   const recommendedSoups = useMemo(() => {
     if (!currentConstitution) return hotSoupExamples
@@ -89,13 +91,43 @@ export default function SoupRecommend() {
 
   const increaseQuantity = (soup: import('@/types').SoupPack) => {
     addToCart(soup, 1)
+    setFeedback(`${soup.nameEn} added to cart`)
   }
 
   const decreaseQuantity = (soupId: string) => {
     const currentQty = getQuantity(soupId)
     if (currentQty > 0) {
       updateQuantity(soupId, currentQty - 1)
+      setFeedback('Cart updated')
     }
+  }
+
+  useEffect(() => {
+    if (!feedback) return
+    const timer = setTimeout(() => setFeedback(''), 1800)
+    return () => clearTimeout(timer)
+  }, [feedback])
+
+  const getRecommendationReasons = (soup: SoupPack) => {
+    if (!currentConstitution) {
+      return [
+        'Popular among users with similar wellness goals',
+        'Balanced formula suitable for daily nourishment',
+      ]
+    }
+
+    const reasons: string[] = []
+    if (soup.suitableFor.includes(currentConstitution.id)) {
+      reasons.push(`Designed for ${currentConstitution.nameEn} support`)
+    }
+    if (soup.benefits.length > 0) {
+      reasons.push(`Key effect: ${soup.benefits[0]}`)
+    }
+    if (currentConstitution.recommendations.length > 0) {
+      reasons.push(`Includes TCM ingredients aligned with your profile`)
+    }
+
+    return reasons.slice(0, 3)
   }
 
   return (
@@ -109,6 +141,11 @@ export default function SoupRecommend() {
 
       {/* Constitution hint or Default hint */}
       <div className="px-4 py-4">
+        {location.state?.fromChat && (
+          <div className="bg-tcm-paper rounded-xl p-3 mb-3 text-xs text-tcm-brown border border-tcm-gold/30">
+            Curated based on your AI consultation. Review each recommendation reason before checkout.
+          </div>
+        )}
         {currentConstitution ? (
           <div className="bg-tcm-green/10 rounded-xl p-4 flex items-center">
             <img 
@@ -146,6 +183,9 @@ export default function SoupRecommend() {
                     src={soup.image} 
                     alt={soup.nameEn}
                     className="w-full h-full object-cover"
+                    onError={(event) => {
+                      event.currentTarget.src = '/images/soup-009.jpg'
+                    }}
                   />
                   {soup.isHot && (
                     <div className="absolute top-3 left-3">
@@ -189,6 +229,18 @@ export default function SoupRecommend() {
                         </span>
                       ))}
                     </div>
+                  </div>
+
+                  {/* Explainability */}
+                  <div className="bg-tcm-green/10 rounded-lg p-3 mb-4">
+                    <p className="text-xs text-tcm-green font-medium mb-1">Why this for you</p>
+                    <ul className="space-y-1">
+                      {getRecommendationReasons(soup).map(reason => (
+                        <li key={reason} className="text-xs text-tcm-ink">
+                          - {reason}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
                   {/* Actions */}
@@ -255,6 +307,12 @@ export default function SoupRecommend() {
               Checkout
             </button>
           </div>
+        </div>
+      )}
+
+      {feedback && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-tcm-ink text-white text-xs px-4 py-2 rounded-full shadow-lg z-40">
+          {feedback}
         </div>
       )}
 

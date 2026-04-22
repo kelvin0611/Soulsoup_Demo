@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Truck, Zap, Store, ShoppingCart } from 'lucide-react'
 import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore'
+import { useOrderStore } from '@/stores/orderStore'
+import type { DeliveryMethod } from '@/types'
 
 const deliveryMethods = [
   { id: 'standard', name: 'Standard Delivery', desc: '3–5 business days', price: 30, icon: Truck },
@@ -14,14 +16,17 @@ export default function OrderConfirm() {
   const navigate = useNavigate()
   const { items, totalPrice, savings, clearCart } = useCartStore()
   const { userInfo, updateUserInfo } = useUserStore()
+  const { createOrder } = useOrderStore()
 
   const [form, setForm] = useState({
     name: userInfo.name || '',
     phone: userInfo.phone || '',
     address: userInfo.address || '',
   })
-  const [selectedDelivery, setSelectedDelivery] = useState('standard')
+  const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>('standard')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [submitSuccess, setSubmitSuccess] = useState('')
 
   const deliveryFee = useMemo(() => {
     const method = deliveryMethods.find(m => m.id === selectedDelivery)
@@ -30,20 +35,84 @@ export default function OrderConfirm() {
 
   const totalAmount = totalPrice + deliveryFee
 
-  const canSubmit = form.name && form.phone && form.address
+  const errors = useMemo(() => {
+    const nextErrors = {
+      name: '',
+      phone: '',
+      address: '',
+    }
+    const name = form.name.trim()
+    const phone = form.phone.trim()
+    const address = form.address.trim()
+    const phoneRegex = /^\+?[0-9\s-]{8,15}$/
+
+    if (!name) {
+      nextErrors.name = 'Recipient name is required'
+    } else if (name.length < 2) {
+      nextErrors.name = 'Name should be at least 2 characters'
+    }
+
+    if (!phone) {
+      nextErrors.phone = 'Contact number is required'
+    } else if (!phoneRegex.test(phone)) {
+      nextErrors.phone = 'Please enter a valid phone number'
+    }
+
+    if (selectedDelivery !== 'selfpick') {
+      if (!address) {
+        nextErrors.address = 'Delivery address is required'
+      } else if (address.length < 10) {
+        nextErrors.address = 'Address should be at least 10 characters'
+      }
+    }
+
+    return nextErrors
+  }, [form.address, form.name, form.phone, selectedDelivery])
+
+  const canSubmit = !errors.name && !errors.phone && !errors.address
 
   const handleSubmit = () => {
     if (!canSubmit) {
-      alert('Please fill in all delivery details')
+      setSubmitSuccess('')
+      setSubmitError('Please fix the highlighted fields before placing the order.')
       return
     }
 
-    updateUserInfo(form)
+    setSubmitError('')
+    setSubmitSuccess('')
     setIsSubmitting(true)
 
     setTimeout(() => {
-      clearCart()
-      navigate('/success')
+      try {
+        const orderId = `TCM${Date.now().toString().slice(-8)}`
+        const normalizedForm = {
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          address: selectedDelivery === 'selfpick' ? 'Self Pick-up at Clinic' : form.address.trim(),
+        }
+
+        updateUserInfo(normalizedForm)
+        createOrder({
+          id: orderId,
+          createdAt: new Date().toISOString(),
+          items,
+          userInfo: normalizedForm,
+          deliveryMethod: selectedDelivery,
+          deliveryFee,
+          subtotal: totalPrice,
+          savings,
+          totalAmount,
+          status: 'confirmed',
+        })
+
+        setSubmitSuccess('Order submitted successfully! Redirecting...')
+        clearCart()
+        navigate('/success')
+      } catch (_error) {
+        setSubmitError('Unable to submit the order. Please try again.')
+      } finally {
+        setIsSubmitting(false)
+      }
     }, 1500)
   }
 
@@ -104,8 +173,9 @@ export default function OrderConfirm() {
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
                 placeholder="Enter your name"
-                className="input-field"
+                className={`input-field ${errors.name ? 'border-red-300 focus:ring-red-300' : ''}`}
               />
+              {errors.name && <p className="text-xs text-tcm-red mt-1">{errors.name}</p>}
             </div>
             <div>
               <label className="text-sm text-gray-500 block mb-2">Contact Number</label>
@@ -114,18 +184,24 @@ export default function OrderConfirm() {
                 value={form.phone}
                 onChange={e => setForm({ ...form, phone: e.target.value })}
                 placeholder="Enter phone number"
-                className="input-field"
+                className={`input-field ${errors.phone ? 'border-red-300 focus:ring-red-300' : ''}`}
               />
+              {errors.phone && <p className="text-xs text-tcm-red mt-1">{errors.phone}</p>}
             </div>
             <div>
-              <label className="text-sm text-gray-500 block mb-2">Delivery Address</label>
+              <label className="text-sm text-gray-500 block mb-2">
+                Delivery Address
+                {selectedDelivery === 'selfpick' && <span className="ml-1 text-tcm-green">(Not required for self pick-up)</span>}
+              </label>
               <textarea
                 value={form.address}
                 onChange={e => setForm({ ...form, address: e.target.value })}
                 rows={3}
-                placeholder="Enter full address"
-                className="textarea-field"
+                placeholder={selectedDelivery === 'selfpick' ? 'You can skip this field' : 'Enter full address'}
+                disabled={selectedDelivery === 'selfpick'}
+                className={`textarea-field ${errors.address ? 'border-red-300 focus:ring-red-300' : ''} ${selectedDelivery === 'selfpick' ? 'opacity-60' : ''}`}
               ></textarea>
+              {errors.address && <p className="text-xs text-tcm-red mt-1">{errors.address}</p>}
             </div>
           </div>
         </div>
@@ -142,7 +218,7 @@ export default function OrderConfirm() {
                   className={`flex items-center p-3 rounded-xl cursor-pointer transition-colors ${
                     selectedDelivery === method.id ? 'bg-tcm-green/10' : ''
                   }`}
-                  onClick={() => setSelectedDelivery(method.id)}
+                  onClick={() => setSelectedDelivery(method.id as DeliveryMethod)}
                 >
                   <div className="w-10 h-10 bg-tcm-paper rounded-lg flex items-center justify-center mr-3">
                     <Icon className="w-5 h-5 text-tcm-green" />
@@ -199,14 +275,16 @@ export default function OrderConfirm() {
             <span className="text-gray-500 text-sm">Total: </span>
             <span className="text-xl font-bold text-tcm-red">${totalAmount}</span>
           </div>
-          <button 
-            className="btn-primary px-8"
+          <button
+            className={`btn-primary px-8 ${isSubmitting ? 'opacity-70' : ''}`}
             disabled={!canSubmit || isSubmitting}
             onClick={handleSubmit}
           >
             {isSubmitting ? 'Submitting...' : 'Place Order'}
           </button>
         </div>
+        {submitError && <p className="max-w-md mx-auto mt-2 text-xs text-tcm-red">{submitError}</p>}
+        {submitSuccess && <p className="max-w-md mx-auto mt-2 text-xs text-tcm-green">{submitSuccess}</p>}
       </div>
 
       <style>{`
